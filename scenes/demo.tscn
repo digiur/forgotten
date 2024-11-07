@@ -34,11 +34,12 @@ layout_mode = 2
 texture = ExtResource("1_ddkay")
 expand_mode = 1
 stretch_mode = 5
+flip_h = true
 script = ExtResource("2_j2u2x")
-x = 0.222
-y = 0.518
+x = 0.269
+y = 0.448
 
 [node name="ember" parent="AspectRatioContainer/LionRect" instance=ExtResource("2_4uuts")]
 unique_name_in_owner = true
-position = Vector2(159.84, 372.96)
+position = Vector2(96.84, 161.28)
 scale = Vector2(4, 4)
