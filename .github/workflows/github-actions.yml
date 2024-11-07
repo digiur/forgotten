@@ -1,0 +1,61 @@
+name: Publish to itch.io
+run-name: ${{ github.actor }} is publishing a new version! 🚀
+on:
+  push:
+    branches:
+      - 'main'
+defaults:
+  run:
+    shell: bash
+jobs:
+  Build-and-Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      - name: Download Godot Engine & Templates
+        run: |
+          wget -q https://downloads.tuxfamily.org/godotengine/4.4/dev3/Godot_v4.4-dev3_linux.x86_64.zip
+          wget -q https://downloads.tuxfamily.org/godotengine/4.4/dev3/Godot_v4.4-dev3_export_templates.tpz
+
+      - name: Extract Godot Engine & Templates
+        run: |
+          unzip Godot_v4.4-dev3_linux.x86_64.zip
+          unzip Godot_v4.4-dev3_export_templates.tpz
+
+      - name: Remove Downloaded Zip Packages
+        run: |
+          rm Godot_v4.4-dev3_linux.x86_64.zip
+          rm Godot_v4.4-dev3_export_templates.tpz
+
+      - name: Set Up Environment
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.4.dev3
+          mv templates/* ~/.local/share/godot/export_templates/4.4.dev3
+          mkdir -p build/win
+
+      - name: Download itch.io Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+          ./butler -V
+
+      # - name: Export Godot Project to HTML
+      #   run: |
+      #     ./Godot_v4.4-dev3_linux.x86_64 --headless --path . --export-release Web builds/html5/index.html
+
+      - name: Export Godot Project to Windows
+        run: |
+          ./Godot_v4.4-dev3_linux.x86_64 --headless --path . --export-release Windows build/win/forgotten.exe
+
+      # - name: Itchio Butler HTML!
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.ITCHIO_API_KEY }}
+      #   run: ./butler push builds/html5 digiur/gnome-garden-game:html5
+
+      - name: Itchio Butler Windows!
+        env:
+          BUTLER_API_KEY: ${{ secrets.ITCHIO_API_KEY }}
+        run: ./butler push build/win digiur/forgotten:win
