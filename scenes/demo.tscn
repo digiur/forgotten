@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://iwto5dc6grvi"]
+
+[ext_resource type="Texture2D" uid="uid://nkd82ljlkqyj" path="res://assets/stonedlion.png" id="1_ddkay"]
+[ext_resource type="PackedScene" uid="uid://ltg73u0hln3l" path="res://scenes/ember.tscn" id="2_4uuts"]
+[ext_resource type="Script" path="res://scripts/lion_rect.gd" id="2_j2u2x"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LionRect" type="TextureRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("1_ddkay")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_j2u2x")
+x = 0.222
+y = 0.518
+
+[node name="ember" parent="AspectRatioContainer/LionRect" instance=ExtResource("2_4uuts")]
+unique_name_in_owner = true
+position = Vector2(159.84, 372.96)
+scale = Vector2(4, 4)
